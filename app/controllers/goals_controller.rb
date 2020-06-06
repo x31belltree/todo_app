@@ -9,7 +9,7 @@ class GoalsController < ApplicationController
 
   # GET /goals/new
   def new
-    @goal = Goal.new
+    @goal = current_user.goals.new
   end
 
   # GET /goals/1/edit
@@ -18,19 +18,20 @@ class GoalsController < ApplicationController
 
   # POST /goals
   def create
-    @goal = Goal.new(goal_params)
-
-    if @goal.save      redirect_to @goal, notice: 'Goal was successfully created.'
+    @goal = current_user.goals.new(goal_params)
+    if @goal.save
+      @status = true
     else
-      render :new
+      @status = false
     end
   end
 
   # PATCH/PUT /goals/1
   def update
     if @goal.update(goal_params)
+      @status = true
     else
-      render :edit
+      @status = false
     end
   end
 
