@@ -1,15 +1,15 @@
 class GoalsController < ApplicationController
-  before_action :authenticate_user!
+ before_action :authenticate_user!
   before_action :set_goal, only: [:show, :edit, :update, :destroy]
 
   # GET /goals
   def index
-    @goals = current_user.goals
+   @goals = current_user.goals.all
   end
 
   # GET /goals/new
   def new
-    @goal = current_user.goals.new
+   @goal = current_user.goals.new
   end
 
   # GET /goals/1/edit
@@ -18,20 +18,20 @@ class GoalsController < ApplicationController
 
   # POST /goals
   def create
-    @goal = current_user.goals.new(goal_params)
+   @goal = current_user.goals.new(goal_params)
     if @goal.save
-      @status = true
+     @status = true
     else
-      @status = false
+     @status = false
     end
   end
 
   # PATCH/PUT /goals/1
   def update
     if @goal.update(goal_params)
-      @status = true
+     @status = true
     else
-      @status = false
+     @status = false
     end
   end
 
@@ -41,12 +41,13 @@ class GoalsController < ApplicationController
   end
 
   private
-    def set_goal
-      @goal = current_user.goals.find_by(params[:id])
-      redirect_to(goals_url, alert: "ERROR!!") if @goal.blank?
-    end
 
-    def goal_params
-      params.require(:goal).permit(:title, :user_id)
-    end
+  def set_goal
+   @goal = current_user.goals.find_by(id: params[:id])
+   redirect_to(goals_url, alert: "ERROR!!") if @goal.blank?
+  end
+
+  def goal_params
+    params.require(:goal).permit(:title, :user_id)
+  end
 end

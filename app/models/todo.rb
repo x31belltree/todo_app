@@ -9,8 +9,8 @@ class Todo < ApplicationRecord
   after_initialize :set_default, if: :new_record?
   
   private
-  
+
   def set_default
-      self.done = false if self.done.blank?
+    self.done = false if self.done.blank?
   end
 end
